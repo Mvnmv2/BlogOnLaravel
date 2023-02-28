@@ -20,12 +20,29 @@
 
 
     Route::group(['namespace' => 'App\Http\Controllers\Main'], function () {
-        Route::get('/', 'IndexController');
+        Route::get('/', 'IndexController')->name('main.index');
     });
 
-    Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'], function () {
+    Route::group(['namespace' => 'App\Http\Controllers\Personal', 'prefix' => 'personal', 'middleware' => ['auth', 'verified']], function () {
+        Route::group(['namespace' => 'Main' , 'prefix' => 'main'], function () {
+            Route::get('/', 'IndexController')->name('personal.main.index');
+        });
+        Route::group(['namespace' => 'Liked', 'prefix' => 'liked'], function () {
+            Route::get('/', 'IndexController')->name('personal.liked.index');
+            Route::delete('/{post}', 'DeleteController')->name('personal.liked.delete');
+        });
+        Route::group(['namespace' => 'Comment', 'prefix' => 'comment'], function () {
+            Route::get('/', 'IndexController')->name('personal.comment.index');
+            Route::get('/{comment}/edit', 'EditController')->name('personal.comment.edit');
+            Route::patch('/{comment}', 'UpdateController')->name('personal.comment.update');
+            Route::delete('/{comment}', 'DeleteController')->name('personal.comment.delete');
+        });
+    });
+
+
+    Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'admin', 'verified']], function () {
         Route::group(['namespace' => 'Main'], function () {
-            Route::get('/', 'IndexController');
+            Route::get('/', 'IndexController')->name('admin.main.index');
         });
 
         Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
@@ -57,9 +74,20 @@
             Route::patch('/{tag}', 'UpdateController')->name('admin.tag.update');
             Route::delete('/{tag}', 'DeleteController')->name('admin.tag.delete');
         });
+
+        Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
+            Route::get('/', 'IndexController')->name('admin.user.index');
+            Route::get('/create', 'CreateController')->name('admin.user.create');
+            Route::post('/', 'StoreController')->name('admin.user.store');
+            Route::get('/{user}', 'ShowController')->name('admin.user.show');
+            Route::get('/{user}/edit', 'EditController')->name('admin.user.edit');
+            Route::patch('/{user}', 'UpdateController')->name('admin.user.update');
+            Route::delete('/{user}', 'DeleteController')->name('admin.user.delete');
+        });
+
     });
 
 
-    Auth::routes();
+    Auth::routes(['verify' => true]);
 
 
