@@ -29,6 +29,22 @@
                         <a class="nav-link" href=" {{ route('main.index') }}">Блог <span
                                 class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=" {{ route('category.index') }}">Категории <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    @auth
+                        <li class="nav-item active">
+                            <a class="nav-link" href=" {{ route('personal.main.index') }}">Личный кабинет <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                    @endauth
+                    @guest
+                        <li class="nav-item active">
+                            <a class="nav-link" href=" {{ route('personal.main.index') }}">Войти <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                    @endguest
                 </ul>
 
             </div>
