@@ -1,4 +1,8 @@
-php artisan serve
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="200" alt="Laravel Logo"></a></p>
+Блог на Laravel
+Реализован функционал: регистрация, авторизация, личный кабинет администратора, верификация пароля на почте при регистрации
+
+Для входа в админку: admin@admin, пароль: 12345678а
+
+Для запуска сервера: php artisan serve
 
 
